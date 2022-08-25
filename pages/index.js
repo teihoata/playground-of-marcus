@@ -7,8 +7,34 @@ import Layout, { GradientBackground } from '../components/Layout';
 import ArrowIcon from '../components/ArrowIcon';
 import { getGlobalData } from '../utils/global-data';
 import SEO from '../components/SEO';
+import { motion } from "framer-motion"
 
 export default function Index({ posts, globalData }) {
+  const ulvariants = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.07, delayChildren: 0.2 }
+    }
+  };
+
+  const variants = {
+    hidden: {
+      x: -1000,
+      opacity: 0,
+    },
+    visible: {
+      y: 0,
+      x: 0,
+      opacity: 1,
+      transition: {
+        y: { stiffness: 1000, velocity: -100 }
+      }
+    }
+  };
+
   return (
     <Layout>
       <SEO title={globalData.name} description={globalData.blogTitle} />
@@ -17,10 +43,18 @@ export default function Index({ posts, globalData }) {
         <h1 className="text-3xl lg:text-5xl text-center mb-12">
           {globalData.blogTitle}
         </h1>
-        <ul className="w-full">
-          {posts.map((post) => (
-            <li
-              key={post.filePath}
+        <motion.ul
+          variants={ulvariants}
+          className="w-full"
+          animate="visible"
+          initial="hidden"
+        >
+          {posts.map((post, i) => (
+            <motion.li
+              variants={variants}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              key={i}
               className="md:first:rounded-t-lg md:last:rounded-b-lg backdrop-blur-lg bg-white dark:bg-black dark:bg-opacity-30 bg-opacity-10 hover:bg-opacity-20 dark:hover:bg-opacity-50 transition border border-gray-800 dark:border-white border-opacity-10 dark:border-opacity-10 border-b-0 last:border-b hover:border-b hovered-sibling:border-t-0"
             >
               <Link
@@ -42,9 +76,9 @@ export default function Index({ posts, globalData }) {
                   <ArrowIcon className="mt-4" />
                 </a>
               </Link>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
       </main>
       <Footer copyrightText={globalData.footerText} />
       <GradientBackground
@@ -55,7 +89,7 @@ export default function Index({ posts, globalData }) {
         variant="small"
         className="absolute bottom-0 opacity-20 dark:opacity-10"
       />
-    </Layout>
+    </Layout >
   );
 }
 
