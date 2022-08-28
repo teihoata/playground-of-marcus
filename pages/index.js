@@ -7,7 +7,7 @@ import Layout, { GradientBackground } from '../components/Layout';
 import ArrowIcon from '../components/ArrowIcon';
 import { getGlobalData } from '../utils/global-data';
 import SEO from '../components/SEO';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
 
 export default function Index({ posts, globalData }) {
   const ulvariants = {
